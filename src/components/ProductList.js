@@ -1,14 +1,40 @@
 import React, { Component } from 'react';
+import { Panel, Image, Button, Col, Label } from 'react-bootstrap';
 
 class ProductList extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
-      produts: []
+      products: [
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'},
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'},
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'},
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'},
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'},
+        {price: 200, link: './img/t-shirt-1.jpg', name: 't-shirt', desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas repudiandae impedit inventore odit architecto'}
+      ]
     }
   }
   render() {
-    return (<div>ProductList Component</div>)
+    return (
+    <div>
+      {this.state.products.map( (product, index) =>
+        <Col xs={4} key={index}>
+          <Panel bsStyle="info" header={product.name}>
+            <Image src={product.link} responsive/>
+            <p className="text-justify">{product.desc}</p>
+            <Button className="pull-right" bsSize="small">
+              <i className="glyphicon glyphicon-shopping-cart"></i> Purchase
+            </Button>
+            <h4>
+              <Label bsStyle="success">
+                <i className="glyphicon glyphicon-usd"></i> {product.price}
+              </Label>
+            </h4>
+          </Panel>
+        </Col>
+      )}
+    </div>)
   }
 }
 
