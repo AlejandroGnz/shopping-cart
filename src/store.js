@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
-function reducer( state, action ) {
+function reducer( state = {}, action ) {
   return state
 }
 
-export default createStore(reducer);
+export default createStore(reducer,{ cartItems: [] });

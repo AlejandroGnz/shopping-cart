@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Panel, Image, Button, Col, Label } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 class ProductList extends Component {
   constructor() {
@@ -37,5 +38,17 @@ class ProductList extends Component {
     </div>)
   }
 }
+const mapStateToProps = state => {
+  return {
+    cartItems: state.cartItems
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    removeFromCart( product ) {
+      
+    }
+  }
+}
 
-export default ProductList;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
