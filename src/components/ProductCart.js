@@ -1,18 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { removeFromCart } from '../actionCreators';
 
-class ProductCart extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      cartItems: []
-    }
-  }
-  render() {
-    return (
-    <div>
-    <Table responsive>
+const ProductCart = ({ cartItems, total, removeFromCart }) =>
+  <Table responsive>
     <thead>
       <tr>
         <th>#</th>
@@ -22,36 +14,45 @@ class ProductCart extends Component {
       </tr>
     </thead>
     <tbody>
-      {this.state.cartItems.length > 0 ? this.state.cartItems.map( (item, index) =>
-        <tr>
-          <td>{index + 1}</td>
+      {cartItems.length > 0 ? cartItems.map( (item, index) =>
+        <tr key={item.id +'-'+ index}>
+          <td>{item.amount}</td>
           <td>{item.name}</td>
           <td>{item.price}</td>
           <td>
-            <Button className="pull-right" bsStyle="danger" bsSize="xsmall">
+            <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={()=>{removeFromCart(item)}}>
               <i className="glyphicon glyphicon-remove"></i>
             </Button>
           </td>
         </tr>
       ): <tr><td className="text-center" colSpan={4}>not item selected</td></tr>}
+      <tr>
+        <td colSpan={4}>
+          {`Total : ${total}`}
+          <Button className="pull-right" bsStyle="primary" bsSize="small">
+            <i className="glyphicon glyphicon-ok"></i> Buy items
+          </Button>
+        </td>
+      </tr>
     </tbody>
   </Table>
-  <Button className="pull-right" bsStyle="primary" bsSize="small">
-    <i className="glyphicon glyphicon-ok"></i> Buy items
-  </Button>
-  </div>)
-  }
-}
 
 const mapStateToProps = state => {
+  console.log(state.cartItems)
+  const total = state.cartItems
+    .map(product => product.price)
+    .reduce((previousValue, currentValue) => {
+        return currentValue + previousValue
+  }, 0)
   return {
-    state
+    cartItems: state.cartItems,
+    total
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     removeFromCart( product ) {
-      
+      dispatch(removeFromCart(product));
     }
   }
 }
