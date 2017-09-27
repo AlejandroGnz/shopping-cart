@@ -38,12 +38,9 @@ const ProductCart = ({ cartItems, total, removeFromCart }) =>
   </Table>
 
 const mapStateToProps = state => {
-  console.log(state.cartItems)
   const total = state.cartItems
-    .map(product => product.price)
-    .reduce((previousValue, currentValue) => {
-        return currentValue + previousValue
-  }, 0)
+    .map(product => product.price * product.amount)
+    .reduce((previousValue, currentValue) => currentValue + previousValue, 0)
   return {
     cartItems: state.cartItems,
     total

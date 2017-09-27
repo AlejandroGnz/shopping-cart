@@ -2,9 +2,32 @@ import { createStore } from 'redux';
 
 function reducer( state, action ) {
   if (action.type === "ADD_TO_CART") {
+    const counts = {}
+    let cartItems = state.cartItems.concat(action.product)
+
+    cartItems.forEach( product => {
+      if (product.amount){
+        counts[product.id] = product.amount;
+      } else {
+        counts[product.id] = (counts[product.id] || 0) + 1;
+      }
+    })
+
+    cartItems = cartItems.map(product => {
+      const arr = {...product, amount: counts[product.id]};
+      return arr;
+    })
+    .filter( product => {
+      if (counts[product.id]) {
+        delete counts[product.id];
+        return true
+      } else {
+        return false;
+      }
+    })
     return {
       ...state,
-      cartItems: state.cartItems.concat(action.product)
+      cartItems
     }
 
   } else if (action.type === "REMOVE_FROM_CART") {
